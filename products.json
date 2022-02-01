@@ -3,65 +3,174 @@
     {
       "sys": { "id": "1" },
       "fields": {
-        "title": "queen panel bed",
+        "title": "Onions",
         "price": 10.99,
-        "image": { "fields": { "file": { "url": "./images/product-1.jpeg" } } }
+        "image": { "fields": { "file": { "url": "./images/onions.jpg" } } }
       }
     },
     {
       "sys": { "id": "2" },
       "fields": {
-        "title": "king panel bed",
+        "title": "badam",
         "price": 12.99,
-        "image": { "fields": { "file": { "url": "./images/product-2.jpeg" } } }
+        "image": { "fields": { "file": { "url": "./images/badam.jpg" } } }
       }
     },
     {
       "sys": { "id": "3" },
       "fields": {
-        "title": "single panel bed",
-        "price": 12.99,
-        "image": { "fields": { "file": { "url": "./images/product-3.jpeg" } } }
+        "title": "cilantro",
+        "price": 3.99,
+        "image": { "fields": { "file": { "url": "./images/cilantro.jpg" } } }
       }
     },
     {
       "sys": { "id": "4" },
       "fields": {
-        "title": "twin panel bed",
-        "price": 22.99,
-        "image": { "fields": { "file": { "url": "./images/product-4.jpeg" } } }
+        "title": "carrot",
+        "price": 7.79,
+        "image": { "fields": { "file": { "url": "./images/carrot.jpg" } } }
       }
     },
     {
       "sys": { "id": "5" },
       "fields": {
-        "title": "fridge",
-        "price": 88.99,
-        "image": { "fields": { "file": { "url": "./images/product-5.jpeg" } } }
+        "title": "beans",
+        "price": 2.99,
+        "image": { "fields": { "file": { "url": "./images/beans.jpg" } } }
       }
     },
     {
       "sys": { "id": "6" },
       "fields": {
-        "title": "dresser",
-        "price": 32.99,
-        "image": { "fields": { "file": { "url": "./images/product-6.jpeg" } } }
+        "title": "eggplant",
+        "price": 5.79,
+        "image": { "fields": { "file": { "url": "./images/eggplant.jpg" } } }
       }
     },
     {
       "sys": { "id": "7" },
       "fields": {
-        "title": "couch",
-        "price": 45.99,
-        "image": { "fields": { "file": { "url": "./images/product-7.jpeg" } } }
+        "title": "mushroom",
+        "price": 6.79,
+        "image": { "fields": { "file": { "url": "./images/mushroom.jpg" } } }
       }
     },
     {
       "sys": { "id": "8" },
       "fields": {
-        "title": "table",
-        "price": 33.99,
-        "image": { "fields": { "file": { "url": "./images/product-8.jpeg" } } }
+        "title": "pomegranate",
+        "price": 5.59,
+        "image": { "fields": { "file": { "url": "./images/pomegranate.jpg" } } }
+      }
+    },
+
+     {
+      "sys": { "id": "9" },
+      "fields": {
+        "title": "maggie",
+        "price": 12.99,
+        "image": { "fields": { "file": { "url": "./images/maggie.jpg" } } }
+      }
+    },
+
+     {
+      "sys": { "id": "10" },
+      "fields": {
+        "title": "ginger",
+        "price": 10.99,
+        "image": { "fields": { "file": { "url": "./images/ginger.jpg" } } }
+      }
+    }
+,
+
+     {
+      "sys": { "id": "11" },
+      "fields": {
+        "title": "Okra",
+        "price": 4.28,
+        "image": { "fields": { "file": { "url": "./images/okra.jpg" } } }
+      }
+    },
+
+     {
+      "sys": { "id": "12" },
+      "fields": {
+        "title": "muskmelon",
+        "price": 6.99,
+        "image": { "fields": { "file": { "url": "./images/muskmelon.jpg" } } }
+      }
+    },
+
+
+     {
+      "sys": { "id": "13" },
+      "fields": {
+        "title": "broccoli",
+        "price": 9.99,
+        "image": { "fields": { "file": { "url": "./images/broccoli.png" } } }
+      }
+    }
+,
+
+     {
+      "sys": { "id": "14" },
+      "fields": {
+        "title": "beans",
+        "price": 3.99,
+        "image": { "fields": { "file": { "url": "./images/beans.jpg" } } }
+      }
+    }
+
+,
+     {
+      "sys": { "id": "15" },
+      "fields": {
+        "title": "curryLeaves",
+        "price": 1.99,
+        "image": { "fields": { "file": { "url": "./images/curryLeaves.jpg" } } }
+      }
+    },
+
+    {
+      "sys": { "id": "16" },
+      "fields": {
+        "title": "cabbage",
+        "price": 5.99,
+        "image": { "fields": { "file": { "url": "./images/cabbage.jpg" } } }
+      }
+    },
+
+    {
+      "sys": { "id": "17" },
+      "fields": {
+        "title": "cucumbers",
+        "price": 4.99,
+        "image": { "fields": { "file": { "url": "./images/cucumbers.jpg" } } }
+      }
+    },
+    {
+      "sys": { "id": "18" },
+      "fields": {
+        "title": "redpepper",
+        "price": 6.99,
+        "image": { "fields": { "file": { "url": "./images/redpepper.jpg" } } }
+      }
+    },
+     {
+      "sys": { "id": "19" },
+      "fields": {
+        "title": "tomatoes",
+        "price": 3.99,
+        "image": { "fields": { "file": { "url": "./images/tomatoes.jpg" } } }
+      }
+    },
+     {
+      "sys": { "id": "20" },
+      "fields": {
+        "title": "cauliflower",
+        "price": 2.99,
+        "image": { "fields": { "file": { "url": "./images/cauliflower.jpg" } } }
       }
     }
   ]

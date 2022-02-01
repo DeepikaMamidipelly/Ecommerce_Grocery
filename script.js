@@ -1,376 +1,273 @@
-const form = document.getElementById("form");
-const input = document.getElementById("input");
-const todosUL = document.getElementById("todos");
+//Variables
+const cartBtn = document.querySelector('.cart-button');
+const closeCartBtn = document.querySelector('.close-cart');
+const clearCartBtn = document.querySelector('.clear-cart');
+const cartDOM = document.querySelector('.cart');
+const cartOverlay= document.querySelector('.cart-overlay');
 
-const todos = JSON.parse(localStorage.getItem("todos"));
+const cartItems= document.querySelector('.cart-items');
+const cartTotal= document.querySelector('.cart-total');
+const cartContent= document.querySelector('.contents');
 
-if (todos) {
-  todos.forEach((todo) => {
-    addTodo(todo);
-  });
-}
+const productsDOM= document.querySelector('.products-center');
+console.log("Hi")
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
+//main information
+//cart
+let cart=[];
+let buttonsDOM=[];
 
-  addTodo();
-});
-
-function addTodo(todo) {
-  let todoText = input.value;
-
-  if (todo) {
-    todoText = todo.text;
-  }
-
-  if (todoText) {
-    const todoEl = document.createElement("li");
-    if (todo && todo.completed) {
-      todoEl.classList.add("completed");
+//getting products
+class Products{
+    //method getProducts
+     async getProducts(){
+        try{
+            let result=await fetch("./products.json");
+            let data = await result.json();
+            let products=data.items;
+            products=products.map( item => {
+                const {title, price} = item.fields;
+                const {id} = item.sys;
+                const  image= item.fields.image.fields.file.url;
+                return { title, price, id, image}
+            })
+            return products;
+        }catch(error){
+            console.log("error")
+        }
+      
     }
-
-    todoEl.innerText = todoText;
-
-    todoEl.addEventListener("click", () => {
-      todoEl.classList.toggle("completed");
-
-      updateLS();
-    });
-
-    todoEl.addEventListener("contextmenu", (e) => {
-      e.preventDefault();
-
-      todoEl.remove();
-
-      updateLS();
-    });
-
-    todosUL.appendChild(todoEl);
-
-    input.value = "";
-
-    updateLS();
-  }
 }
 
-function updateLS() {
-  const todosEl = document.querySelectorAll("li");
 
-  const todos = [];
-
-  todosEl.forEach((todoEl) => {
-    todos.push({
-      text: todoEl.innerText,
-      completed: todoEl.classList.contains("completed"),
-    });
-  });
-
-  localStorage.setItem("todos", JSON.stringify(todos));
-  const APIURL =
-    "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&page=1";
-const IMGPATH = "https://image.tmdb.org/t/p/w1280";
-const SEARCHAPI =
-    "https://api.themoviedb.org/3/search/movie?&api_key=04c35731a5ee918f014970082a0088b1&query=";
-
-const main = document.getElementById("main");
-const form = document.getElementById("form");
-const search = document.getElementById("search");
-
-// initially get fav movies
-getMovies(APIURL);
-
-async function getMovies(url) {
-    const resp = await fetch(url);
-    const respData = await resp.json();
-
-    console.log(respData);
-
-    showMovies(respData.results);
-}
-
-function showMovies(movies) {
-    // clear main
-    main.innerHTML = "";
-
-    movies.forEach((movie) => {
-        const { poster_path, title, vote_average, overview } = movie;
-
-        const movieEl = document.createElement("div");
-        movieEl.classList.add("movie");
-
-        movieEl.innerHTML = `
-            <img
-                src="${IMGPATH + poster_path}"
-                alt="${title}"
-            />
-            <div class="movie-info">
-                <h3>${title}</h3>
-                <span class="${getClassByRate(
-                    vote_average
-                )}">${vote_average}</span>
+//display products taking the produts
+class UI{
+    displayProducts(products){
+        let result='';
+        products.forEach(product => {
+          result+= `
+            <div class="product">
+            <div class="img-container">
+                <img src=${product.image}  alt="okra"
+                    class="product-img"/>
+            <button class="bag-btn" data-id=${product.id}>
+              <i class="fas fa-shopping-cart"></i>
+              add to bag
+            </button>
             </div>
-            <div class="overview">
-                <h3>Overview:</h3>
-                ${overview}
-            </div>
-        `;
-
-        main.appendChild(movieEl);
-    });
-}
-
-function getClassByRate(vote) {
-    if (vote >= 8) {
-        return "green";
-    } else if (vote >= 5) {
-        return "orange";
-    } else {
-        return "red";
-    }
-}
-
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const searchTerm = search.value;
-
-    if (searchTerm) {
-        getMovies(SEARCHAPI + searchTerm);
-
-        search.value = "";
-    }
-});
-const canvas = document.getElementById("canvas");
-const increaseBtn = document.getElementById("increase");
-const decreaseBtn = document.getElementById("decrease");
-const sizeEl = document.getElementById("size");
-const colorEl = document.getElementById("color");
-const clearEl = document.getElementById("clear");
-const ctx = canvas.getContext("2d");
-
-let size = 30;
-let isPressed = false;
-let color = "black";
-let x = undefined;
-let y = undefined;
-
-canvas.addEventListener("mousedown", (e) => {
-    isPressed = true;
-
-    x = e.offsetX;
-    y = e.offsetY;
-});
-
-canvas.addEventListener("mouseup", (e) => {
-    isPressed = false;
-
-    x = undefined;
-    y = undefined;
-});
-
-canvas.addEventListener("mousemove", (e) => {
-    if (isPressed) {
-        const x2 = e.offsetX;
-        const y2 = e.offsetY;
-
-        drawCircle(x2, y2);
-        drawLine(x, y, x2, y2);
-        x = x2;
-        y = y2;
-    }
-});
-
-function drawCircle(x, y) {
-    ctx.beginPath();
-    ctx.arc(x, y, size, 0, Math.PI * 2);
-    ctx.fillStyle = color;
-    ctx.fill();
-}
-
-function drawLine(x1, y1, x2, y2) {
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.strokeStyle = color;
-    ctx.lineWidth = size * 2;
-    ctx.stroke();
-}
-
-increaseBtn.addEventListener("click", () => {
-    size += 5;
-
-    if (size > 50) {
-        size = 50;
-    }
-
-    updateSizeOnScreen();
-});
-
-decreaseBtn.addEventListener("click", () => {
-    size -= 5;
-
-    if (size < 5) {
-        size = 5;
-    }
-
-    updateSizeOnScreen();
-});
-
-colorEl.addEventListener("change", (e) => {
-    color = e.target.value;
-});
-
-clearEl.addEventListener("click", () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-});
-
-function updateSizeOnScreen() {
-    sizeEl.innerText = size;
-}
-const APIURL = "https://api.github.com/users/";
-
-const main = document.getElementById("main");
-const form = document.getElementById("form");
-const search = document.getElementById("search");
-
-getUser("florinpop17");
-
-async function getUser(username) {
-    const resp = await fetch(APIURL + username);
-    const respData = await resp.json();
-
-    createUserCard(respData);
-
-    getRepos(username);
-}
-
-async function getRepos(username) {
-    const resp = await fetch(APIURL + username + "/repos");
-    const respData = await resp.json();
-
-    addReposToCard(respData);
-}
-
-function createUserCard(user) {
-    const cardHTML = `
-        <div class="card">
-            <div>
-                <img class="avatar" src="${user.avatar_url}" alt="${user.name}" />
-            </div>
-            <div class="user-info">
-                <h2>${user.name}</h2>
-                <p>${user.bio}</p>
-                <ul class="info">
-                    <li>${user.followers}<strong>Followers</strong></li>
-                    <li>${user.following}<strong>Following</strong></li>
-                    <li>${user.public_repos}<strong>Repos</strong></li>
-                </ul>
-                <div id="repos"></div>
-            </div>
-        </div>
-    `;
-
-    main.innerHTML = cardHTML;
-}
-
-function addReposToCard(repos) {
-    const reposEl = document.getElementById("repos");
-
-    repos
-        .sort((a, b) => b.stargazers_count - a.stargazers_count)
-        .slice(0, 10)
-        .forEach((repo) => {
-            const repoEl = document.createElement("a");
-            repoEl.classList.add("repo");
-
-            repoEl.href = repo.html_url;
-            repoEl.target = "_blank";
-            repoEl.innerText = repo.name;
-
-            reposEl.appendChild(repoEl);
+            <h3>${product.title}</h3>
+            <h4>$${product.price}</h4>
+        </div> 
+          `  
         });
-}
 
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const user = search.value;
-
-    if (user) {
-        getUser(user);
-
-        search.value = "";
+        productsDOM.innerHTML = result;
     }
-});
-const addBtn = document.getElementById("add");
 
-const notes = JSON.parse(localStorage.getItem("notes"));
+    getBagButtons(){
+         console.log("uttonsDOM")
+        const buttons=[...document.querySelectorAll(".bag-btn")];
+   buttonsDOM=buttons;
+        buttons.forEach( button => {
+       let id=button.dataset.id;
+       let inCart = cart.find(item => item.id == id);
+       if(inCart){
+           button.innerText = "In Cart";
+           button.disabled = true
+       }else{
+           button.addEventListener('click',(event) =>{
+               event.target.innerText="In Cart";
+                event.target.disabled=true;
 
-if (notes) {
-    notes.forEach((note) => {
-        addNewNote(note);
-    });
+                //get product from products
+                let cartItem={...Storage.getProduct(id), amount:1};
+
+                //add product to the cart
+                cart=[...cart,cartItem];
+
+                //save cart in local Storage
+                Storage.saveCart(cart);
+
+                //set cart values
+                this.setCartValues(cart);
+
+                //display cart items
+                this.addCartItem(cartItem);
+
+                //show the cart
+                this.showCart();
+           })
+       }
+
+      
+   })
+    }
+    setCartValues(cart){
+        let tempTotal=0;
+        let itemsTotal=0;
+        cart.map(item => {
+            tempTotal=tempTotal+item.price*item.amount;
+            itemsTotal=itemsTotal+item.amount;
+        })
+        cartTotal.innerText = parseFloat(tempTotal.toFixed(2));
+        cartItems.innerText= itemsTotal;
+    }
+
+    addCartItem(item){
+        const div=document.createElement('div');
+        div.classList.add('cart-item');
+        div.innerHTML=`<img src=${item.image} alt="product">
+                    <div>
+                        <h4>${item.title}</h4>
+                        <h3>$${item.price}</h4>
+                            <span class="remove-item" data-id=${item.id}>
+                                remove
+                            </span>
+                    </div>
+
+                    <div>
+                        <i class="fas fa-chevron-up" data-id=${item.id}></i>
+                        <p class="item-amount">${item.amount}</p>
+                        <i class="fas fa-chevron-down" data-id=${item.id}></i>
+                    </div>`;
+        cartContent.appendChild(div);
+    }
+   
+    showCart(){
+        cartOverlay.classList.add('transparentBcg');
+        cartDOM.classList.add('showCart');
+    }
+
+    setupAPP(){
+        cart = Storage.getCart();
+        this.setCartValues(cart);
+        this.populateCart(cart);
+        cartBtn.addEventListener("click",this.showCart);
+        closeCartBtn.addEventListener("click",this.hideCart);
+        
+    }
+
+    hideCart(){
+           cartOverlay.classList.remove('transparentBcg');
+        cartDOM.classList.remove('showCart');
+    }
+
+    populateCart(cart){
+        cart.forEach( item =>  this.addCartItem(item));
+        
+    }
+
+    cartLogic(){
+
+        //clear cart button
+        clearCartBtn.addEventListener('click',() => {
+            this.clearCart();
+        });
+
+         cartContent.addEventListener('click',event =>{
+             if(event.target.classList.contains('remove-item')){
+                let removeItem=event.target;
+                let id= removeItem.dataset.id;
+                cartContent.removeChild(removeItem.parentElement.parentElement);
+               this.removeItem(id);
+             }
+             else if(event.target.classList.contains('fa-chevron-up')){
+                let addAmount=event.target;
+                let id=addAmount.dataset.id;
+                let tempItem=cart.find(item => item.id==id);
+                tempItem.amount = tempItem.amount+1;
+                Storage.saveCart(cart);
+                this.setCartValues(cart);
+                addAmount.nextElementSibling.innerText=tempItem.amount;
+             }
+
+                 else if(event.target.classList.contains('fa-chevron-down')){
+
+              let lowerAmount=event.target;
+                let id=lowerAmount.dataset.id;
+                let tempItem=cart.find(item => item.id==id);
+                tempItem.amount = tempItem.amount-1;
+
+                if(tempItem.amount>0){
+
+                     Storage.saveCart(cart);
+                this.setCartValues(cart);
+                lowerAmount.previousElementSibling.innerText=tempItem.amount;
+            
+                }else{
+                     cartContent.removeChild(lowerAmount.parentElement.parentElement);  
+                this.removeItem(id)
+                    }
+                }
+         })
+    }
+
+    clearCart(){
+        let cartItems=cart.map( item => item.id);
+        cartItems.forEach( id => this.removeItem(id));
+        while(cartContent.children.length>0){
+            cartContent.removeChild(cartContent.children[0]);
+        }
+        this.hideCart();
+    }
+
+    removeItem(id){
+        cart=cart.filter( item => item.id !==id);
+        this.setCartValues(cart);
+        Storage.saveCart(cart);
+        let button= this.getSingleButton(id);
+        button.disabled=false;
+        button.innerHTML=`<i class="fas fa-shopping-cart></i> add to cart`;
+    }
+
+    getSingleButton(id){
+        return buttonsDOM.find(button => button.dataset.id === id);
+    }
 }
 
-addBtn.addEventListener("click", () => {
-    addNewNote();
-});
+//local storage
+class Storage{
+    static saveProducts(products){
+        localStorage.setItem("products",JSON.stringify(products));
+    }
 
-function addNewNote(text = "") {{}
-    const note = document.createElement("div");
-    note.classList.add("note");
+    static getProduct(id){
+        let products=
+        JSON.parse(localStorage.getItem('products'));
+       return products.find(product => product.id== id);
+    }
 
-    note.innerHTML = `
-        <div class="notes">
-            <div class="tools">
-                <button class="edit"><i class="fas fa-edit"></i></button>
-                <button class="delete"><i class="fas fa-trash-alt"></i></button>
-            </div>
-            <div class="main ${text ? "" : "hidden"}"></div>
-            <textarea class="${text ? "hidden" : ""}"></textarea>
-        </div>
-    `;
+    static saveCart(cart){
+        localStorage.setItem("cart",JSON.stringify(cart));
+    }
 
-    const editBtn = note.querySelector(".edit");
-    const deleteBtn = note.querySelector(".delete");
+    static getCart(){
+        return localStorage.getItem('cart')?JSON.parse(localStorage.getItem('cart')):[];
+    }
 
-    const main = note.querySelector(".main");
-    const textArea = note.querySelector("textarea");
-
-    textArea.value = text;
-    main.innerHTML = marked(text);
-
-    editBtn.addEventListener("click", () => {
-        main.classList.toggle("hidden");
-        textArea.classList.toggle("hidden");
-    });
-
-    deleteBtn.addEventListener("click", () => {
-        note.remove();
-
-        updateLS();
-    });
-
-    textArea.addEventListener("input", (e) => {
-        const { value } = e.target;
-
-        main.innerHTML = marked(value);
-
-        updateLS();
-    });
-
-    document.body.appendChild(note);
 }
 
-function updateLS() {
-    const notesText = document.querySelectorAll("textarea");
 
-    const notes = [];
+document.addEventListener("DOMContentLoaded",() => {
+    //creating instances for ui and products classses
+    const ui=new UI();
+    const products=new Products();
 
-    notesText.forEach((note) => {
-        notes.push(note.value);
-    });
+    //set up application
+ui.setupAPP(); 
 
-    localStorage.setItem("notes", JSON.stringify(notes));
-}
-}
+    //get all Products
+    products.getProducts().then(products => 
+        {
+            ui.displayProducts(products);
+          Storage.saveProducts(products)
+        }).then(() => {
+            
+            ui.getBagButtons();
+            
+            ui.cartLogic();
+
+        })
+
+         
+})

@@ -1,11 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@100&family=Moon+Dance&family=Open+Sans:wght@300&family=Poppins&display=swap");
 
 :root {
-  --primaryColor: #f09d51;
+  --primaryColor: #4f5f46;
   --mainWhite: #fff;
   --mainBlack: #222;
   --mainGrey: #ececec;
   --mainSpacing: 0.1rem;
+  --mainTransition: all 0.3s linear;
 }
 
 * {
@@ -43,6 +44,11 @@ body {
   margin: 0 auto;
 }
 
+.grocery {
+  font-size: 20px;
+  letter-spacing: var(--mainSpacing);
+  font-weight: bold;
+}
 .nav-icon {
   font-size: 1.5rem;
 }
@@ -60,4 +66,243 @@ body {
   padding: 0 2px;
   border-radius: 30%;
   color: var(--mainWhite);
+}
+/* End of nav bar */
+
+.hero {
+  min-height: calc(100vh - 50px);
+  background-image: url(./images/grocery.png);
+  background-position: center center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.banner {
+  text-align: center;
+  background: rgba(104, 107, 103, 0.8);
+  padding: 2.5rem;
+  display: inline-block;
+}
+
+.banner-title {
+  font-size: 3rem;
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+  letter-spacing: var(--mainSpacing);
+}
+
+.banner-btn {
+  padding: 1rem 1.9rem;
+  background: rgba(70, 104, 58, 0.8);
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: var(--mainSpacing);
+  border: 1px solid rgba(104, 107, 103, 0.8);
+  cursor: pointer;
+}
+
+.banner-btn:hover {
+  background: transparent;
+  color: var(--primaryColor);
+}
+
+/* End of hero */
+
+/* Proucts */
+.products {
+  padding: 2rem 1.8rem;
+}
+
+.section-title h1 {
+  text-align: center;
+  margin-bottom: 1.9rem;
+  font-size: 1.4rem;
+  letter-spacing: var(--mainSpacing);
+}
+.products-center {
+  width: 90vw;
+  margin: 0 auto;
+  display: grid;
+  /* 1fr means 1 fraction evenely spaced columns
+  1fr 1fr means 50% 50%
+  repeat(4,1fr)
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+     grid-template-columns: repeat(4,1fr);
+ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
+ minmax-240px means atleast each column to be 240 px, if there is 
+ any space add 1fr
+  i need four columns each 1 fr divide equally among 4 */
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  max-width: 1170px;
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 2rem;
+}
+
+.img-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.bag-btn {
+  position: absolute;
+  cursor: pointer;
+  background: rgba(70, 104, 58, 0.8);
+  top: 70%;
+  right: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08rem;
+  font-weight: bold;
+  /* hiding the button using tranform */
+  transform: translateX(101%);
+  border: none;
+  padding: 0.5rem 0.5rem;
+}
+
+.bag-btn:hover {
+  color: var(--primaryColor);
+}
+.img-container:hover .bag-btn {
+  transform: translateX(0);
+}
+.fa-shopping-cart {
+  margin-right: 0.5rem;
+}
+
+.product-img {
+  display: block;
+  width: 100%;
+  min-height: 18rem;
+  max-height: 18rem;
+  transition: var(--mainTransition);
+}
+
+.img-container:hover .product-img {
+  opacity: 0.6;
+}
+
+.product h3 {
+  text-transform: capitalize;
+  font-size: 1.1rem;
+  margin-top: 1.1rem;
+  text-align: center;
+}
+
+.product h4 {
+  text-transform: capitalize;
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  color: rgba(30, 59, 19, 0.8);
+  text-align: center;
+  letter-spacing: var(--mainSpacing);
+}
+/* End of Proucts */
+
+/* Cart */
+.cart-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  background: rgba(63, 85, 53, 0.8);
+  z-index: 2;
+  visibility: hidden;
+}
+
+.cart {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+  z-index: 3;
+  background: rgb(216, 211, 205);
+  padding: 1.5rem;
+  transition: var(--mainTransition);
+
+  /* this hides the  cart to the side
+  cart goes inside */
+  transform: translatex(100%);
+}
+
+@media screen {
+  .cart {
+    width: 30vw;
+    min-width: 450px;
+  }
+}
+
+.close-cart {
+  font-size: 1.7rem;
+  cursor: pointer;
+}
+
+.cart h2 {
+  text-transform: capitalize;
+  text-align: center;
+  letter-spacing: var(--mainSpacing);
+  margin-bottom: 2rem;
+}
+
+/* Cart Items */
+
+.cart-item {
+  display: grid;
+  align-items: center;
+  /* three things for three divs inside cart-item
+  auto for image then 1fr auto */
+  grid-template-columns: auto 1fr auto;
+  grid-column-gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.cart-item img {
+  width: 85px;
+  height: 85px;
+}
+
+.cart-item h4 {
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  letter-spacing: var(--mainSpacing);
+}
+.cart-item h5 {
+  margin: 0.5rem 0;
+  letter-spacing: var(--mainSpacing);
+}
+
+.item-amount {
+  text-align: center;
+}
+
+.showCart {
+  transform: translateX(0);
+}
+
+.transparentBcg {
+  visibility: visible;
+}
+.remove-item {
+  color: grey;
+  cursor: pointer;
+}
+/* End of Cart */
+
+.cart-footer {
+  margin-top: 2rem;
+  letter-spacing: var(--mainSpacing);
+  text-align: center;
+}
+
+.fa-chevron-up,
+.fa-chevron-down {
+  color: var(--primaryColor);
+  cursor: pointer;
+}
+
+.cart-footer h3 {
+  margin-bottom: 1rem;
+  text-transform: capitalize;
 }
